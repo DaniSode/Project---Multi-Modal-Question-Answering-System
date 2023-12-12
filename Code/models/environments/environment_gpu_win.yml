@@ -1,4 +1,4 @@
-name: dmlgpu
+name: envproject
 channels:
 - conda-forge
 - defaults
