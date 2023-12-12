@@ -1,4 +1,4 @@
-name: envproject
+name: gpu_win
 channels:
 - conda-forge
 - defaults

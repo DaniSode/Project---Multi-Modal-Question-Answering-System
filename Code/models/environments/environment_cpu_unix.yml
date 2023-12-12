@@ -1,9 +1,13 @@
-name: gpu_unix
+name: cpu_unix
 channels:
+- pytorch
 - conda-forge
 - defaults
 dependencies:
 - python=3.9
+- pytorch=2.0.1
+- torchvision=0.15.2
+- cpuonly
 - pip
 - numpy
 - jupyter
@@ -28,6 +32,3 @@ dependencies:
   - einops
   - transformers
   - datasets
-  - --extra-index-url https://download.pytorch.org/whl/cu117
-  - torch==2.0.1+cu117
-  - torchvision==0.15.2+cu117
