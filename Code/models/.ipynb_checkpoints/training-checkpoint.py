@@ -152,7 +152,7 @@ class Vocab:
         if vocab in self.vocab2idx:
             return self.vocab2idx[vocab]
         else:
-            return self.vocab2idx = ['<unk>']
+            return ['<unk>']
 
     def idx2word(self, idx):
 
