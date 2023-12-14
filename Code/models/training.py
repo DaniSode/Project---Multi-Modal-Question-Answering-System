@@ -86,9 +86,9 @@ class VQADataset(Dataset):
         sample = {'image': img, 'question': qu2idx, 'question_id': qu_id}
 
         ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data[idx]['valid_ans']]
+        ans2idx = ans2idx.flatten
         print(np.shape(ans2idx))
-        ans2idx[5]
-        ans2idx = np.random.choice(ans2idx)
+        ans2idx = np.random.choice(ans2idx[:])
         sample['answer'] = ans2idx
 
         if self.transform:
