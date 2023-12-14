@@ -86,6 +86,7 @@ class VQADataset(Dataset):
         sample = {'image': img, 'question': qu2idx, 'question_id': qu_id}
 
         ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data[idx]['valid_ans']]
+        print(ans2idx)
         ans2idx = np.random.choice(ans2idx)
         sample['answer'] = ans2idx
 
@@ -150,7 +151,7 @@ class Vocab:
         if vocab in self.vocab2idx:
             return self.vocab2idx[vocab]
         else:
-            return key.(self.vocab2idx) = ['<unk>']
+            return self.vocab2idx['<unk>'] = '<unk>'
 
     def idx2word(self, idx):
 
