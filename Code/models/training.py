@@ -156,6 +156,10 @@ class Vocab:
 
         return self.vocab[idx]
 
+dataloader = data_loader(out_data_pth, 70, 30, 4)
+print(dataloader)
+for idx, sample in enumerate(dataloader['train']):
+    print('hey')
 
 # Late fusion models
 
