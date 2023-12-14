@@ -136,8 +136,6 @@ class Vocab:
 
         self.vocab = self.load_vocab(vocab_file)
         self.vocab2idx = {vocab: idx for idx, vocab in enumerate(self.vocab)}
-        print(self.vocab2idx)
-        #self.vocab2idx = str(self.vocab2idx)
         self.vocab_size = len(self.vocab)
 
     def load_vocab(self, vocab_file):
@@ -152,7 +150,7 @@ class Vocab:
         if vocab in self.vocab2idx:
             return self.vocab2idx[vocab]
         else:
-            return ['<unk>']
+            return key.(self.vocab2idx) = ['<unk>']
 
     def idx2word(self, idx):
 
