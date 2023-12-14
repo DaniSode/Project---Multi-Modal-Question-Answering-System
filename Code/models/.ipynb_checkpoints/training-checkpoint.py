@@ -68,7 +68,7 @@ class VQADataset(Dataset):
 
     def __init__(self, input_dir, input_file, max_qu_len = 30, transform = None):
 
-        with open(input_dir+'\\'+input_file), 'r') as file:
+        with open(input_dir+'\\'+input_file, 'r') as file:
             self.input_data = json.load(file)
         self.qu_vocab = Vocab('preprocessed\\vocab\qst_vocabs.txt')
         self.ans_vocab = Vocab('preprocessed\\vocab\\ann_vocabs.txt')
