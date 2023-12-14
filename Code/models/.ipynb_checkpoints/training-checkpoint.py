@@ -47,16 +47,16 @@ from tensorflow.keras.applications import VGG19
 # In[ ]:
 
 
-img_pth = 'dataset\img'
-ann_pth = 'dataset\\ann'
-qst_pth = 'dataset\qst'
-out_img_pth = 'preprocessed\img'
-out_data_pth = 'preprocessed\data'
-out_vocab_pth = 'preprocessed\\vocab'
-out_ann_pth = 'preprocessed\\ann'
-out_qst_pth = 'preprocessed\qst'
-ckpt_pth = 'late_fusion\ckpt'
-log_pth = 'late_fusion\log'
+img_pth = 'dataset/img'
+ann_pth = 'dataset/ann'
+qst_pth = 'dataset/qst'
+out_img_pth = 'preprocessed/img'
+out_data_pth = 'preprocessed/data'
+out_vocab_pth = 'preprocessed/vocab'
+out_ann_pth = 'preprocessed/ann'
+out_qst_pth = 'preprocessed/qst'
+ckpt_pth = 'late_fusion/ckpt'
+log_pth = 'late_fusion/log'
 
 
 # Build Dataset
@@ -68,10 +68,10 @@ class VQADataset(Dataset):
 
     def __init__(self, input_dir, input_file, max_qu_len = 30, transform = None):
 
-        with open(input_dir+'\\'+input_file, 'r') as file:
+        with open(os.path.join(input_dir, input_file), 'r') as file:
             self.input_data = json.load(file)
-        self.qu_vocab = Vocab('preprocessed\\vocab\qst_vocabs.txt')
-        self.ans_vocab = Vocab('preprocessed\\vocab\\ann_vocabs.txt')
+        self.qu_vocab = Vocab('preprocessed/vocab/qst_vocabs.txt')
+        self.ans_vocab = Vocab('preprocessed/vocab/ann_vocabs.txt')
         self.max_qu_len = max_qu_len
         self.transform = transform
 
