@@ -78,9 +78,12 @@ class VQADataset(Dataset):
     def __getitem__(self, idx):
         idx = str(idx)
         path = self.input_data[idx]['img_path']
+        print(path)
         img = np.array(Image.open(path).convert('RGB'))
         qu_id = self.input_data[idx]['qu_id']
+        print(qu_id)
         qu_tokens = self.input_data[idx]['qu_tokens']
+        print(qu_tokens)
         qu2idx = np.array([self.qu_vocab.word2idx('<pad>')] * self.max_qu_len)
         qu2idx[:len(qu_tokens)] = [self.qu_vocab.word2idx(token) for token in qu_tokens]
         sample = {'image': img, 'question': qu2idx, 'question_id': qu_id}
@@ -156,10 +159,6 @@ class Vocab:
 
         return self.vocab[idx]
 
-dataloader = data_loader(out_data_pth, 70, 30, 4)
-print(dataloader)
-for idx, sample in enumerate(dataloader['train']):
-    print('hey')
 
 # Late fusion models
 
