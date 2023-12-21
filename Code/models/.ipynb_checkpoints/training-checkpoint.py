@@ -269,9 +269,9 @@ def train():
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
             label = sample['answer'].to(device=device)
-            print(tf.shape(image))
-            print(tf.shape(question))
-            print(tf.shape(label))
+            print(np.shape(image))
+            print(np.shape(question))
+            print(np.shape(label))
             # forward
             logits = model(image, question)
             print(logits)
