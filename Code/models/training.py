@@ -275,7 +275,7 @@ def train():
             # forward
             logits = model(image, question)
             print(logits)
-            print(tf.shape(logits))
+            print(np.shape(logits))
             loss = criterion(logits, label)
             epoch_loss['train'] += loss.item()
             # backward
