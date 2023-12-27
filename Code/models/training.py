@@ -8,7 +8,7 @@
 
 # In[ ]:
 
-
+print('hey)
 # Resizing img
 import os
 import argparse
