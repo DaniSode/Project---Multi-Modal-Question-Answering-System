@@ -269,6 +269,7 @@ def train():
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
             label = sample['answer'].to(device=device)
+            print('hey')
             print(np.shape(image))
             print(np.shape(question))
             print(np.shape(label))
