@@ -74,6 +74,7 @@ class VQADataset(Dataset):
         self.ans_vocab = Vocab('preprocessed/vocab/ann_vocabs.txt')
         self.max_qu_len = max_qu_len
         self.transform = transform
+        self.labeled = True if not "test" in input_file else False  #added this
 
     def __getitem__(self, idx):
         idx = str(idx)
