@@ -91,7 +91,10 @@ class VQADataset(Dataset):
             ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data[idx]['valid_ans']]
             print(np.shape(ans2idx))
             #ans2idx = np.random.choice(ans2idx)
+
             ans2idx = np.random.choice(ans2idx, size=np.shape(ans2idx))
+
+            ans2idx = np.random.choice(ans2idx, size=1, replace=False)[0]
             print(np.shape(ans2idx))
             sample['answer'] = ans2idx
         #old
@@ -249,7 +252,7 @@ class VQAModel(nn.Module):
 
 
 #BATCH_SIZE = 70
-BATCH_SIZE = 16
+BATCH_SIZE = 70
 MAX_QU_LEN = 30
 NUM_WORKER = 8
 FEATURE_SIZE, WORD_EMBED = 512, 150
