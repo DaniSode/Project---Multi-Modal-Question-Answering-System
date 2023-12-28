@@ -91,8 +91,8 @@ class VQADataset(Dataset):
             ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data[idx]['valid_ans']]
             print(np.shape(ans2idx))
             #ans2idx = np.random.choice(ans2idx)
-            #ans2idx = np.random.choice(ans2idx, size=1, replace=False)[0]
-            #print(np.shape(ans2idx))
+            ans2idx = np.random.choice(ans2idx, size=1)
+            print(np.shape(ans2idx))
             sample['answer'] = ans2idx
         #old
         #ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data[idx]['valid_ans']]
