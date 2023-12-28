@@ -87,8 +87,11 @@ class VQADataset(Dataset):
         sample = {'image': img, 'question': qu2idx, 'question_id': qu_id}
 
         if self.labeled:
+            print('ans2idx')
             ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data[idx]['valid_ans']]
+            print(np.shape(ans2idx))
             ans2idx = np.random.choice(ans2idx)
+            print(np.shape(ans2idx))
             sample['answer'] = ans2idx
         #old
         #ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data[idx]['valid_ans']]
