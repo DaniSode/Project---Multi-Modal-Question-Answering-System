@@ -99,11 +99,11 @@ class VQADataset(Dataset):
             #sample['answer'] = ans2idx
         #old
         
-        ans2idx = np.random.choice(ans2idx.flatten(), size=1, replace=False)
-        print(ans2idx)
+        #ans2idx = np.random.choice(ans2idx, size=1, replace=False)
+        #print(ans2idx)
         #ans2idx = np.random.choice(ans2idx)
         #print(ans2idx)
-        sample['answer'] = ans2idx
+        sample['answer'] = ans2idx[0]
 
         if self.transform:
             sample['image'] = self.transform(sample['image'])
@@ -287,8 +287,8 @@ def train():
         for idx, sample in enumerate(dataloader['train']):
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
-            #label = sample['answer'].to(device=device)
-            label = sample['answer'].squeeze().view(-1).to(device=device)
+            label = sample['answer'].to(device=device)
+            #label = sample['answer'].squeeze().view(-1).to(device=device)
             
             print('hey')
             print(np.shape(image))
