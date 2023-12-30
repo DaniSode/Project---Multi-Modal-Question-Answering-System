@@ -100,7 +100,9 @@ class VQADataset(Dataset):
         #old
         
         ans2idx = np.random.choice(ans2idx, size=1, replace=False)
+        print(ans2idx)
         ans2idx = np.random.choice(ans2idx)
+        print(ans2idx)
         sample['answer'] = ans2idx
 
         if self.transform:
