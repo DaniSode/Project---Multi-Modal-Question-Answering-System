@@ -99,8 +99,8 @@ class VQADataset(Dataset):
             #sample['answer'] = ans2idx
         #old
         
-        ans2idx = np.random.choice(ans2idx, size=1, replace=False)
-        #print(ans2idx)
+        ans2idx = np.random.choice(ans2idx.flatten(), size=1, replace=False)
+        print(ans2idx)
         #ans2idx = np.random.choice(ans2idx)
         #print(ans2idx)
         sample['answer'] = ans2idx
