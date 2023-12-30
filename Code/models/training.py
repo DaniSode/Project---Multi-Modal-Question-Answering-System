@@ -77,7 +77,7 @@ class VQADataset(Dataset):
         self.labeled = True if not "test" in input_file else False  #added this
 
     def __getitem__(self, idx):
-        idx = str(idx)
+        #idx = str(idx)
         path = self.input_data[idx]['img_path']
         img = np.array(Image.open(path).convert('RGB'))
         qu_id = self.input_data[idx]['qu_id']
