@@ -114,6 +114,8 @@ class VQADataset(Dataset):
         if self.transform:
             sample['image'] = self.transform(sample['image'])
 
+        print('sample',sample['answer'])
+
         return sample
         
         #ans2idx = np.random.choice(ans2idx, size=1, replace=False)
