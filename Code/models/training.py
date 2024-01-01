@@ -187,6 +187,7 @@ class Vocab:
 
         if vocab in self.vocab2idx:
             print(vocab)
+            print(self.vocab2idx[vocab])
             
             return self.vocab2idx[vocab]
         else:
