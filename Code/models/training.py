@@ -134,7 +134,7 @@ class VQADataset(Dataset):
         #print(leng)
 
 
-        return 2999
+        return len(self.input_data)
 
 
 def data_loader(input_dir, batch_size, max_qu_len, num_worker):
