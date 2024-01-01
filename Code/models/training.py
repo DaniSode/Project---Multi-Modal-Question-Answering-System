@@ -382,7 +382,7 @@ def train():
     training_time = end_time - start_time
     print(f">> Finishing training | Training Time:{training_time//60:.0f}m:{training_time%60:.0f}s")
 
-def early_stopping(model, epoch_loss, patience=7):
+def early_stopping(model, epoch_loss, patience=14):
 
     early_stop = False
     if not bool(early_stopping.__dict__):
