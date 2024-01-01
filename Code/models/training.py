@@ -114,6 +114,7 @@ class VQADataset(Dataset):
         if self.transform:
             sample['image'] = self.transform(sample['image'])
             sample['answer'] = self.transform(sample['answer'])
+            
 
         print('sample',type(sample['question_id']))
 
@@ -308,8 +309,8 @@ def train():
             print()
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
-            #label = sample['answer'].to(device=device)
-            label = sample['answer'].to(device=device, dtype=torch.long)
+            label = sample['answer'].to(device=device)
+            
             
             #label = sample['answer'].squeeze().view(-1).to(device=device)
             
