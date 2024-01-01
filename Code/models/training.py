@@ -81,6 +81,7 @@ class VQADataset(Dataset):
         self.transform = transform
         self.labeled = True if not "test" in input_file else False  #added this
         self.length=len(self.input_data)-1
+        print('lenggg',self.length)
 
     def __getitem__(self, idx):
         
