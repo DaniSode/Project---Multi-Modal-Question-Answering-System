@@ -69,7 +69,7 @@ log_pth = 'late_fusion/log'
 
 class VQADataset(Dataset):
 
-    def __init__(self, input_dir, input_file, max_qu_len = 30, data_type,transform = None):
+    def __init__(self, input_dir, input_file,data_type ,max_qu_len = 30, transform = None):
 
         
         self.input_data =pd.read_csv(os.path.join(input_dir, input_file))
