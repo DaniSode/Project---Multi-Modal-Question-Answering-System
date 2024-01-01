@@ -109,14 +109,14 @@ class VQADataset(Dataset):
         ans2idx = [self.ans_vocab.word2idx(ans) for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0])]
         print('typeee',type(ans2idx[0]))
         ans2idx = (ans2idx[0])
-        sample['answer'] = ans2idx
+        sample['answer'] = int(ans2idx)
 
         if self.transform:
             sample['image'] = self.transform(sample['image'])
             
             
 
-        print('sample',type(sample['question_id']))
+   
 
         return sample
         
