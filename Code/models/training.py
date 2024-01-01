@@ -82,9 +82,9 @@ class VQADataset(Dataset):
         #idx = str(idx)
         #print(idx)
 
-        path = self.input_data.loc[self.input_data['index'] == idx, 'img_path'].values[0]
+        path = str(self.input_data.loc[self.input_data['index'] == idx, 'img_path'].values[0])
         img = np.array(Image.open(path).convert('RGB'))
-        qu_id = self.input_data.loc[self.input_data['index'] == idx, 'qu_id'].values[0]
+        qu_id = int(self.input_data.loc[self.input_data['index'] == idx, 'qu_id'].values[0])
         qu_tokens = self.input_data.loc[self.input_data['index'] == idx, 'qu_tokens'].values[0]
         qu2idx = np.array([self.qu_vocab.word2idx('<pad>')] * self.max_qu_len)
         qu2idx[:len(qu_tokens)] = [self.qu_vocab.word2idx(token) for token in qu_tokens]
