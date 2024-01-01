@@ -116,11 +116,11 @@ class VQADataset(Dataset):
         
 
     def __len__(self):
-        leng=(len(self.input_data)-1)
-        print(leng)
+        #leng=(len(self.input_data)-1)
+        #print(leng)
 
 
-        return leng
+        return 2999
 
 
 def data_loader(input_dir, batch_size, max_qu_len, num_worker):
