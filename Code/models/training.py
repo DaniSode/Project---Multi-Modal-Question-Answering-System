@@ -323,6 +323,7 @@ def train():
             logits = model(image, question)
             print(np.shape(logits))
             loss = criterion(logits, label)
+            print('DID A LOSS')
             epoch_loss['train'] += loss.item()
             # backward
             optimizer.zero_grad()
