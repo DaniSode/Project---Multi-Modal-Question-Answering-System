@@ -188,7 +188,7 @@ class Vocab:
 
         if vocab in self.vocab2idx:
             
-            print(i)
+            
             #print(vocab)
             #print(self.vocab2idx[vocab])
             
