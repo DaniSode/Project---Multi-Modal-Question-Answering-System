@@ -25,6 +25,7 @@ import pandas as pd
 # Preprocess data
 import glob
 import numpy as np
+import ast
 
 # Build dataset
 from torch.utils.data import Dataset
@@ -88,12 +89,11 @@ class VQADataset(Dataset):
         #print('path',path)
         img = np.array(Image.open(path).convert('RGB'))
         qu_id = int(self.input_data.loc[self.input_data['index'] == idx, 'qu_id'].values[0])
-        qu_tokens = self.input_data.loc[self.input_data['index'] == idx, 'qu_tokens'].values[0]
-        #print('tokens',qu_tokens)
+        qu_tokens =  ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'qu_tokens'].values[0])
+        
         qu2idx = np.array([self.qu_vocab.word2idx('<pad>')] * self.max_qu_len)
         print('what is qu2idx', qu2idx[:len(qu_tokens)])
-        for token2 in qu_tokens:
-            print('tokensss',token2)
+        
         qu2idx[:len(qu_tokens)] = [self.qu_vocab.word2idx(token) for token in qu_tokens]
         sample = {'image': img, 'question': qu2idx, 'question_id': qu_id}
         
