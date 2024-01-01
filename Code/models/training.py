@@ -190,6 +190,7 @@ class Vocab:
             return self.vocab2idx[vocab]
         else:
             print('gone into ukn')
+            print('this word is not there',vocab)
             return ['<unk>']
 
     def idx2word(self, idx):
