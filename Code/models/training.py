@@ -132,7 +132,7 @@ class VQADataset(Dataset):
         #print(leng)
 
 
-        return len(self.input_data)
+        return 2999
 
 
 def data_loader(input_dir, batch_size, max_qu_len, num_worker):
@@ -193,11 +193,11 @@ class Vocab:
             #print(self.vocab2idx[vocab])
             
             return self.vocab2idx[vocab]
-        #else:
-            #print('gone into ukn')
-            #print('this word is not there',vocab)
+        else:
+            print('gone into ukn')
+            print('this word is not there',vocab)
 
-            #return [self.vocab2idx[vocab]==20]
+            return self.vocab2idx['<unk>']
 
     def idx2word(self, idx):
 
