@@ -316,6 +316,7 @@ def train():
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
             label = sample['answer'].to(device=device)
+            print('label',label)
             
             
             #label = sample['answer'].squeeze().view(-1).to(device=device)
