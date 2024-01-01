@@ -193,11 +193,11 @@ class Vocab:
             #print(self.vocab2idx[vocab])
             
             return self.vocab2idx[vocab]
-        else:
-            print('gone into ukn')
+        #else:
+            #print('gone into ukn')
             #print('this word is not there',vocab)
 
-            return [self.vocab2idx[vocab]==20]
+            #return [self.vocab2idx[vocab]==20]
 
     def idx2word(self, idx):
 
