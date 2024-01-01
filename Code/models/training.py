@@ -76,7 +76,7 @@ class VQADataset(Dataset):
         #print(self.input_data)
         self.qu_vocab = Vocab('preprocessed/vocab/qst_vocabs.txt')
         self.ans_vocab = Vocab('preprocessed/vocab/ann_vocabs.txt')
-        print(self.ans_vocab.vocab)
+        #print(self.ans_vocab.vocab)
         self.max_qu_len = max_qu_len
         self.transform = transform
         self.labeled = True if not "test" in input_file else False  #added this
@@ -186,6 +186,7 @@ class Vocab:
     def word2idx(self, vocab):
 
         if vocab in self.vocab2idx:
+            print(vocab)
             
             return self.vocab2idx[vocab]
         else:
