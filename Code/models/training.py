@@ -19,6 +19,8 @@ from sklearn.model_selection import train_test_split
 import json
 import re
 from collections import defaultdict
+import csv
+import pandas as pd
 
 # Preprocess data
 import glob
@@ -68,8 +70,8 @@ class VQADataset(Dataset):
 
     def __init__(self, input_dir, input_file, max_qu_len = 30, transform = None):
 
-        with open(os.path.join(input_dir, input_file), 'r') as file:
-            self.input_data = json.load(file)
+        
+        self.input_data =pd.read_csv(os.path.join(input_dir, input_file))
         self.qu_vocab = Vocab('preprocessed/vocab/qst_vocabs.txt')
         self.ans_vocab = Vocab('preprocessed/vocab/ann_vocabs.txt')
         self.max_qu_len = max_qu_len
@@ -77,40 +79,38 @@ class VQADataset(Dataset):
         self.labeled = True if not "test" in input_file else False  #added this
 
     def __getitem__(self, idx):
-        idx = str(idx)
-        print(idx)
-        path = self.input_data[idx]['img_path']
+        #idx = str(idx)
+        #print(idx)
+
+        path = self.input_data.loc[self.input_data['index'] == idx, 'img_path'].values[0]
         img = np.array(Image.open(path).convert('RGB'))
-        qu_id = self.input_data[idx]['qu_id']
-        qu_tokens = self.input_data[idx]['qu_tokens']
+        qu_id = self.input_data.loc[self.input_data['index'] == idx, 'qu_id'].values[0]
+        qu_tokens = self.input_data.loc[self.input_data['index'] == idx, 'qu_tokens'].values[0]
         qu2idx = np.array([self.qu_vocab.word2idx('<pad>')] * self.max_qu_len)
         qu2idx[:len(qu_tokens)] = [self.qu_vocab.word2idx(token) for token in qu_tokens]
         sample = {'image': img, 'question': qu2idx, 'question_id': qu_id}
         
 
-        print('ans2idx')
-        ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data[idx]['valid_ans']]
-        print(ans2idx[0])
-        print(np.shape(ans2idx))
-            #ans2idx = np.random.choice(ans2idx)
-
-            #ans2idx = np.random.choice(ans2idx, size=np.shape(ans2idx))
-
-            #ans2idx = np.random.choice(ans2idx, size=1, replace=False)[0]
-            #print(np.shape(ans2idx))
-            #sample['answer'] = ans2idx
-        #old
-        
-        #ans2idx = np.random.choice(ans2idx, size=1, replace=False)
-        #print(ans2idx)
-        #ans2idx = np.random.choice(ans2idx)
-        #print(ans2idx)
-        sample['answer'] = ans2idx[0]
+        #print('ans2idx')
+        #ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]]
+        #print(ans2idx[0])
+        #print(np.shape(ans2idx))
+        if self.labeled:
+            print('ans2idx')
+            ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]]
+            ans2idx = np.random.choice(ans2idx)
+            sample['answer'] = ans2idx
 
         if self.transform:
             sample['image'] = self.transform(sample['image'])
 
         return sample
+        
+        #ans2idx = np.random.choice(ans2idx, size=1, replace=False)
+        #print(ans2idx)
+        #ans2idx = np.random.choice(ans2idx)
+        #print(ans2idx)
+        
 
     def __len__(self):
 
@@ -127,7 +127,7 @@ def data_loader(input_dir, batch_size, max_qu_len, num_worker):
     vqa_dataset = {
         'train': VQADataset(
             input_dir=input_dir,
-            input_file='train.json',
+            input_file='train_new.csv',
             max_qu_len=max_qu_len,
             transform=transform),
         'val': VQADataset(
@@ -287,7 +287,7 @@ def train():
         epoch_loss = {key: 0 for key in ['train', 'val']}
         model.train()
         for idx, sample in enumerate(dataloader['train']):
-            print(sample)
+            print()
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
             label = sample['answer'].to(device=device)
@@ -362,7 +362,7 @@ def early_stopping(model, epoch_loss, patience=7):
 if __name__ == '__main__':
 
     if not os.path.exists(log_pth):
-        os.makedirs(log_pth)
+        os.makedirs(log_pth)``
     if not os.path.exists(ckpt_pth):
         os.makedirs(ckpt_pth)
     train()
