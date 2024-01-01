@@ -114,7 +114,7 @@ class VQADataset(Dataset):
         
 
     def __len__(self):
-        leng=len(self.input_data)-1
+        leng=(len(self.input_data)-1)
         print(leng)
 
 
