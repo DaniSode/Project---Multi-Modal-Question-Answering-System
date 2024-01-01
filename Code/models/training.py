@@ -76,6 +76,7 @@ class VQADataset(Dataset):
         #print(self.input_data)
         self.qu_vocab = Vocab('preprocessed/vocab/qst_vocabs.txt')
         self.ans_vocab = Vocab('preprocessed/vocab/ann_vocabs.txt')
+        print(self.ans_vocab.vocab)
         self.max_qu_len = max_qu_len
         self.transform = transform
         self.labeled = True if not "test" in input_file else False  #added this
@@ -105,9 +106,9 @@ class VQADataset(Dataset):
         print('ans2idx')
         for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]):
             print('ans44',ans)
-            print('ans33',self.ans_vocab.word2idx(ans))
+            #print('ans33',self.ans_vocab.word2idx(ans))
         ans2idx = [self.ans_vocab.word2idx(ans) for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0])]
-        print('typeee',type(ans2idx[0]))
+        #print('typeee',type(ans2idx[0]))
         ans2idx = (ans2idx[0])
         sample['answer'] = (ans2idx)
 
@@ -170,6 +171,7 @@ class Vocab:
     def __init__(self, vocab_file):
 
         self.vocab = self.load_vocab(vocab_file)
+        
         self.vocab2idx = {vocab: idx for idx, vocab in enumerate(self.vocab)}
         self.vocab_size = len(self.vocab)
         #print('vocab_idx',self.vocab )
@@ -307,7 +309,7 @@ def train():
         epoch_loss = {key: 0 for key in ['train', 'val']}
         model.train()
         for idx, sample in enumerate(dataloader['train']):
-            print()
+          
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
             label = sample['answer'].to(device=device)
