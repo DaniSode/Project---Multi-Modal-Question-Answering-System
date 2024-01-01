@@ -341,7 +341,9 @@ def train():
             optimizer.step()
 
         model.eval()
+        print('reached val')
         for idx, sample in enumerate(dataloader['val']):
+            print('went into val')
 
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
