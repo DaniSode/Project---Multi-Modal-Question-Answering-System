@@ -103,7 +103,7 @@ class VQADataset(Dataset):
         #print(ans2idx[0])
         #print(np.shape(ans2idx))
         
-        print('ans2idx')
+        #print('ans2idx')
         #for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]):
             #print('ans44',ans)
             #print('ans33',self.ans_vocab.word2idx(ans))
@@ -317,10 +317,10 @@ def train():
             
             #label = sample['answer'].squeeze().view(-1).to(device=device)
             
-            print('hey')
-            print(np.shape(image))
-            print(np.shape(question))
-            print(np.shape(label))
+            #print('hey')
+            #print(np.shape(image))
+            #print(np.shape(question))
+            #print(np.shape(label))
             # forward
             logits = model(image, question)
             print(np.shape(logits))
