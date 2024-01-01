@@ -362,7 +362,7 @@ def early_stopping(model, epoch_loss, patience=7):
 if __name__ == '__main__':
 
     if not os.path.exists(log_pth):
-        os.makedirs(log_pth)``
+        os.makedirs(log_pth)
     if not os.path.exists(ckpt_pth):
         os.makedirs(ckpt_pth)
     train()
