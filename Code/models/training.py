@@ -69,7 +69,7 @@ log_pth = 'late_fusion/log'
 
 class VQADataset(Dataset):
 
-    def __init__(self, input_dir, input_file, max_qu_len = 30, transform = None):
+    def __init__(self, input_dir, ,input_file, max_qu_len = 30, data_type,transform = None):
 
         
         self.input_data =pd.read_csv(os.path.join(input_dir, input_file))
@@ -78,6 +78,7 @@ class VQADataset(Dataset):
         self.ans_vocab = Vocab('preprocessed/vocab/ann_vocabs.txt')
         #print(self.ans_vocab.vocab)
         self.max_qu_len = max_qu_len
+        self.type=data_type
         self.transform = transform
         self.labeled = True if not "test" in input_file else False  #added this
         self.length=len(self.input_data)
@@ -134,7 +135,7 @@ class VQADataset(Dataset):
         #print(leng)
 
 
-        return len(self.input_data)
+        return 2999
 
 
 def data_loader(input_dir, batch_size, max_qu_len, num_worker):
@@ -148,11 +149,13 @@ def data_loader(input_dir, batch_size, max_qu_len, num_worker):
         'train': VQADataset(
             input_dir=input_dir,
             input_file='train_new.csv',
+            data_type='val',
             max_qu_len=max_qu_len,
             transform=transform),
         'val': VQADataset(
             input_dir=input_dir,
             input_file='val.json',
+            data_type='val',
             max_qu_len=max_qu_len,
             transform=transform)
     }
