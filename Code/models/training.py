@@ -134,7 +134,7 @@ class VQADataset(Dataset):
         print('coumn',column_length)
 
 
-        return column_length
+        return int(column_length)
 
 
 def data_loader(input_dir, batch_size, max_qu_len, num_worker):
