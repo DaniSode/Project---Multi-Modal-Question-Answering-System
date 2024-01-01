@@ -81,10 +81,9 @@ class VQADataset(Dataset):
         self.labeled = True if not "test" in input_file else False  #added this
 
     def __getitem__(self, idx):
-        #idx = str(idx)
-        #print(idx)
+        
 
-        path = str(self.input_data.loc[self.input_data['index'] == idx, 'img_path'].values[0])
+        path = (self.input_data.loc[self.input_data['index'] == idx, 'img_path'].values[0])
 
         #print('path',path)
         img = np.array(Image.open(path).convert('RGB'))
@@ -104,7 +103,7 @@ class VQADataset(Dataset):
         #print(np.shape(ans2idx))
         
         print('ans2idx')
-        ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]]
+        ans2idx = [self.ans_vocab.word2idx(ans) for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0])]
         ans2idx = np.random.choice(ans2idx)
         sample['answer'] = ans2idx
 
