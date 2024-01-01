@@ -114,7 +114,7 @@ class VQADataset(Dataset):
         if self.transform:
             sample['image'] = self.transform(sample['image'])
 
-        print('sample',sample['answer'])
+        print('sample',type(sample['answer']))
 
         return sample
         
