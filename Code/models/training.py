@@ -84,6 +84,8 @@ class VQADataset(Dataset):
         #print(idx)
 
         path = str(self.input_data.loc[self.input_data['index'] == idx, 'img_path'].values[0])
+
+        print('path',path)
         img = np.array(Image.open(path).convert('RGB'))
         qu_id = int(self.input_data.loc[self.input_data['index'] == idx, 'qu_id'].values[0])
         qu_tokens = self.input_data.loc[self.input_data['index'] == idx, 'qu_tokens'].values[0]
