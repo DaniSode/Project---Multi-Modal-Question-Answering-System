@@ -91,7 +91,7 @@ class VQADataset(Dataset):
         qu_tokens =  ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'qu_tokens'].values[0])
         
         qu2idx = np.array([self.qu_vocab.word2idx('<pad>')] * self.max_qu_len)
-        print('what is qu2idx', qu2idx[:len(qu_tokens)])
+        
         
         qu2idx[:len(qu_tokens)] = [self.qu_vocab.word2idx(token) for token in qu_tokens]
         sample = {'image': img, 'question': qu2idx, 'question_id': qu_id}
@@ -302,9 +302,9 @@ def train():
             print()
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
-            label = sample['answer'].to(device=device)
+            #label = sample['answer'].to(device=device)
             
-            #label = sample['answer'].squeeze().view(-1).to(device=device)
+            label = sample['answer'].squeeze().view(-1).to(device=device)
             
             print('hey')
             print(np.shape(image))
