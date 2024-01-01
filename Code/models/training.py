@@ -186,8 +186,8 @@ class Vocab:
     def word2idx(self, vocab):
 
         if vocab in self.vocab2idx:
-            print(vocab)
-            print(self.vocab2idx[vocab])
+            #print(vocab)
+            #print(self.vocab2idx[vocab])
             
             return self.vocab2idx[vocab]
         else:
@@ -316,7 +316,7 @@ def train():
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
             label = sample['answer'].to(device=device)
-            print('label',label)
+            
             
             
             #label = sample['answer'].squeeze().view(-1).to(device=device)
