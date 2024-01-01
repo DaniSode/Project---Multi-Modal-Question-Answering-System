@@ -104,8 +104,8 @@ class VQADataset(Dataset):
         #print(np.shape(ans2idx))
         
         print('ans2idx')
-        for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]):
-            print('ans44',ans)
+        #for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]):
+            #print('ans44',ans)
             #print('ans33',self.ans_vocab.word2idx(ans))
         ans2idx = [self.ans_vocab.word2idx(ans) for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0])]
         #print('typeee',type(ans2idx[0]))
