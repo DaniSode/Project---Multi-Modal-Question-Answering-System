@@ -95,11 +95,11 @@ class VQADataset(Dataset):
         #ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]]
         #print(ans2idx[0])
         #print(np.shape(ans2idx))
-        if self.labeled:
-            print('ans2idx')
-            ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]]
-            ans2idx = np.random.choice(ans2idx)
-            sample['answer'] = ans2idx
+        
+        print('ans2idx')
+        ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]]
+        ans2idx = np.random.choice(ans2idx)
+        sample['answer'] = ans2idx
 
         if self.transform:
             sample['image'] = self.transform(sample['image'])
