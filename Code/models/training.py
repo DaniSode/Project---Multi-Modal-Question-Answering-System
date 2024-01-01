@@ -80,7 +80,7 @@ class VQADataset(Dataset):
         self.max_qu_len = max_qu_len
         self.transform = transform
         self.labeled = True if not "test" in input_file else False  #added this
-        self.length=len(self.input_data)-1
+        self.length=len(self.input_data)
         print('lenggg',self.length)
 
     def __getitem__(self, idx):
