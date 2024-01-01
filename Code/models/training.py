@@ -72,6 +72,7 @@ class VQADataset(Dataset):
 
         
         self.input_data =pd.read_csv(os.path.join(input_dir, input_file))
+        print(self.input_data)
         self.qu_vocab = Vocab('preprocessed/vocab/qst_vocabs.txt')
         self.ans_vocab = Vocab('preprocessed/vocab/ann_vocabs.txt')
         self.max_qu_len = max_qu_len
@@ -114,7 +115,7 @@ class VQADataset(Dataset):
 
     def __len__(self):
 
-        return len(self.input_data)
+        return len(self.input_data)-1
 
 
 def data_loader(input_dir, batch_size, max_qu_len, num_worker):
