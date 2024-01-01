@@ -104,7 +104,7 @@ class VQADataset(Dataset):
         
         print('ans2idx')
         for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]):
-            print('ans'.ans)
+            print('ans',ans)
         ans2idx = [self.ans_vocab.word2idx(ans) for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0])]
         print(ans2idx)
         ans2idx = np.random.choice(ans2idx)
