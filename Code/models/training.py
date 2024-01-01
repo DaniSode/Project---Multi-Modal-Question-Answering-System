@@ -184,8 +184,11 @@ class Vocab:
         return vocab
 
     def word2idx(self, vocab):
+        i=0
 
         if vocab in self.vocab2idx:
+            i=i+1
+            print(i)
             #print(vocab)
             #print(self.vocab2idx[vocab])
             
