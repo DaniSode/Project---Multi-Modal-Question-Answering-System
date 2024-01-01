@@ -130,8 +130,6 @@ class VQADataset(Dataset):
     def __len__(self):
         #leng=(len(self.input_data)-1)
         #print(leng)
-        column_length = len(self.input_data['index'])-1
-        print('coumn',column_length)
 
 
         return 2999
@@ -343,7 +341,7 @@ def train():
             optimizer.step()
 
         model.eval()
-        print('reached val')
+        print('reached ecal')
         for idx, sample in enumerate(dataloader['val']):
             print('went into val')
 
