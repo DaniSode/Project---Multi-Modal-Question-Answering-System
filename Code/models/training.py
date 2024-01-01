@@ -113,7 +113,7 @@ class VQADataset(Dataset):
 
         if self.transform:
             sample['image'] = self.transform(sample['image'])
-            sample['answer'] = self.transform(sample['answer'])
+            
             
 
         print('sample',type(sample['question_id']))
