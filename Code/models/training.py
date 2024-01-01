@@ -305,7 +305,8 @@ def train():
             print()
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
-            label = sample['answer'].to(device=device)
+            #label = sample['answer'].to(device=device)
+            label = sample['answer'].to(device=device, dtype=torch.long)
             
             #label = sample['answer'].squeeze().view(-1).to(device=device)
             
