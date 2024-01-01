@@ -133,9 +133,15 @@ class VQADataset(Dataset):
     def __len__(self):
         #leng=(len(self.input_data)-1)
         #print(leng)
+        if self.type=='train':
+            number=2999
+
+        if self.type=='val':
+            number=1499
 
 
-        return 2999
+
+        return number
 
 
 def data_loader(input_dir, batch_size, max_qu_len, num_worker):
@@ -149,12 +155,12 @@ def data_loader(input_dir, batch_size, max_qu_len, num_worker):
         'train': VQADataset(
             input_dir=input_dir,
             input_file='train_new.csv',
-            data_type='val',
+            data_type='train',
             max_qu_len=max_qu_len,
             transform=transform),
         'val': VQADataset(
             input_dir=input_dir,
-            input_file='val.json',
+            input_file='val_new.csv',
             data_type='val',
             max_qu_len=max_qu_len,
             transform=transform)
