@@ -353,6 +353,7 @@ def train():
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+            #ffff
 
         model.eval()
    
