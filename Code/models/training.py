@@ -112,7 +112,9 @@ class VQADataset(Dataset):
             #print('ans33',self.ans_vocab.word2idx(ans))
         ans2idx = [self.ans_vocab.word2idx(ans) for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0])]
         #print('typeee',type(ans2idx[0]))
-        ans2idx = (ans2idx[0])
+        #ans2idx = (ans2idx[0])
+        ans2idx=random.choice(ans2idx)
+        
         sample['answer'] = (ans2idx)
 
         if self.transform:
