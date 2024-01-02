@@ -373,7 +373,7 @@ def train():
                 f.write(str(epoch+1) + '\t' + str(epoch_loss[phase]) + '\n')
         print('Epoch:{}/{} | Training Loss: {train:6f} | Validation Loss: {val:6f}'.format(epoch+1, EPOCH, **epoch_loss))
 
-        #scheduler.step()
+        scheduler.step()
         #early_stop = early_stopping(model, epoch_loss['val'])
         if (epoch+1) % 5 == 0:
             torch.save(model.state_dict(), os.path.join(ckpt_pth, f'model-epoch-{epoch+1}.pth'))
