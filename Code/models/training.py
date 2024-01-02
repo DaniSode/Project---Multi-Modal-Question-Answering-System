@@ -307,7 +307,7 @@ FEATURE_SIZE, WORD_EMBED = 512, 150
 NUM_HIDDEN, HIDDEN_SIZE = 2, 128
 #NUM_HIDDEN, HIDDEN_SIZE = 2, 512
 LEARNING_RATE, STEP_SIZE, GAMMA = 0.001, 10, 0.1
-EPOCH = 50
+EPOCH = 100
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
