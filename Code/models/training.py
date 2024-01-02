@@ -345,9 +345,9 @@ def train():
             #print(np.shape(label))
             # forward
             logits = model(image, question)
-            print(np.shape(logits))
+            
             loss = criterion(logits, label)
-            print('DID A LOSS')
+            
             epoch_loss['train'] += loss.item()
             # backward
             optimizer.zero_grad()
@@ -355,9 +355,9 @@ def train():
             optimizer.step()
 
         model.eval()
-        print('reached ecal')
+   
         for idx, sample in enumerate(dataloader['val']):
-            print('went into val')
+            
 
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
@@ -373,13 +373,13 @@ def train():
                 f.write(str(epoch+1) + '\t' + str(epoch_loss[phase]) + '\n')
         print('Epoch:{}/{} | Training Loss: {train:6f} | Validation Loss: {val:6f}'.format(epoch+1, EPOCH, **epoch_loss))
 
-        scheduler.step()
-        early_stop = early_stopping(model, epoch_loss['val'])
+        #scheduler.step()
+        #early_stop = early_stopping(model, epoch_loss['val'])
         if (epoch+1) % 5 == 0:
             torch.save(model.state_dict(), os.path.join(ckpt_pth, f'model-epoch-{epoch+1}.pth'))
-        if early_stop:
-            print(f'>> Early stop at {epoch+1} epoch')
-            break
+        #if early_stop:
+         #   print(f'>> Early stop at {epoch+1} epoch')
+          #  break
 
     end_time = time.time()
     training_time = end_time - start_time
