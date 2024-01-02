@@ -70,7 +70,7 @@ log_pth = 'late_fusion/log'
 
 class VQADataset(Dataset):
 
-    def __init__(self, input_dir, input_file,data_type ,max_qu_len = 30, transform = None):
+    def __init__(self, input_dir, input_file,data_type ,max_qu_len = 30, transform = None): #new input
 
         
         self.input_data =pd.read_csv(os.path.join(input_dir, input_file))
@@ -79,13 +79,13 @@ class VQADataset(Dataset):
         self.ans_vocab = Vocab('preprocessed/vocab/ann_vocabs.txt')
         #print(self.ans_vocab.vocab)
         self.max_qu_len = max_qu_len
-        self.type=data_type
+        self.type=data_type #new
         self.transform = transform
         self.labeled = True if not "test" in input_file else False  #added this
         self.length=len(self.input_data)
       
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx):  #new function
         
 
         path = (self.input_data.loc[self.input_data['index'] == idx, 'img_path'].values[0])
@@ -102,11 +102,7 @@ class VQADataset(Dataset):
         sample = {'image': img, 'question': qu2idx, 'question_id': qu_id}
         
 
-        #print('ans2idx')
-        #ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]]
-        #print(ans2idx[0])
-        #print(np.shape(ans2idx))
-        
+        #old
         #print('ans2idx')
         #for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]):
             #print('ans44',ans)
@@ -127,15 +123,11 @@ class VQADataset(Dataset):
 
         return sample
         
-        #ans2idx = np.random.choice(ans2idx, size=1, replace=False)
-        #print(ans2idx)
-        #ans2idx = np.random.choice(ans2idx)
-        #print(ans2idx)
+       
         
 
-    def __len__(self):
-        #leng=(len(self.input_data)-1)
-        #print(leng)
+    def __len__(self):  #new function
+        
         if self.type=='train':
             number=2999
 
@@ -203,15 +195,14 @@ class Vocab:
         if vocab in self.vocab2idx:
             
             
-            #print(vocab)
-            #print(self.vocab2idx[vocab])
+            
             
             return self.vocab2idx[vocab]
         else:
             print('gone into ukn')
             print('this word is not there',vocab)
 
-            return self.vocab2idx['<unk>']
+            return self.vocab2idx['<unk>']  #new
 
     def idx2word(self, idx):
 
@@ -337,13 +328,7 @@ def train():
             
             
             
-            #label = sample['answer'].squeeze().view(-1).to(device=device)
             
-            #print('hey')
-            #print(np.shape(image))
-            #print(np.shape(question))
-            #print(np.shape(label))
-            # forward
             logits = model(image, question)
             
             loss = criterion(logits, label)
