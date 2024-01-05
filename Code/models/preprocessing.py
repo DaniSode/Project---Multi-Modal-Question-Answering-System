@@ -41,6 +41,12 @@ from torch import optim
 import tensorflow as tf
 from tensorflow.keras.applications import VGG19
 
+# Excel
+import pandas as pd
+import csv
+import ast
+import openpyxl
+
 
 # Define paths
 
@@ -139,6 +145,13 @@ def preprocessing(image_dir, annotation_dir, question_dir, output_dir, vocab_dir
     with open(output_dir + '/val.json', 'w') as f:
         json.dump(dataset['val'], f)
 
+    # Write to excel file
+    train_json_path = output_dir + "/train.json"
+    val_json_path = output_dir + "/val.json"
+    excelwriting(train_json_path, output_dir) 
+    excelwriting(val_json_path, output_dir)  
+
+
 def tokenizer(sentence):
 
     regex = re.compile(r'(\W+)')
@@ -159,6 +172,52 @@ def match_top_ans(annotation_ans, vocab_path):
         match_top_ans.unk_ans += 1
 
     return annotation_ans, valid_ans
+
+def excelwriting(json_path, output_dir):
+
+    with open(json_path) as f:
+        json_data = json.load(f)
+
+    values = json_data.values()
+    keys = json_data.keys()
+
+    #Sorting things out
+    Index=json_data.keys()
+    indexs=[]
+    for i in Index:
+        indexs.append(int(i))
+    
+    imgId=[]
+    img_path=[]
+    quId=[]
+    qu_S=[]
+    qu_T=[]
+    All_A=[]
+    valid_A=[]
+
+    for i in Index:
+        imgId.append(json_data[i]['img_id'])
+        img_path.append(json_data[i]['img_path'])
+        quId.append(json_data[i]['qu_id'])
+        qu_S.append(json_data[i]['qu_sentence'])
+        qu_T.append(json_data[i]['qu_tokens'])
+        All_A.append(json_data[i]['all_ans'])
+        valid_A.append(json_data[i]['valid_ans'])
+    
+    #Creating the csv file
+    string = json_path.split('.')[0]
+    csv_file_path = f'{string}.csv'
+
+    data_list = list(zip(indexs, imgId,img_path,quId,qu_S,qu_T,All_A,valid_A))
+
+    with open(csv_file_path, "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+
+        # Write the header
+        writer.writerow(["index", "img_id", "img_path","qu_id", "qu_sentence","qu_tokens","all_ans","valid_ans"])
+
+        # Write the data
+        writer.writerows(data_list)
 
 def main():
 
