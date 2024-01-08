@@ -19,10 +19,13 @@ from sklearn.model_selection import train_test_split
 import json
 import re
 from collections import defaultdict
+import csv
+import pandas as pd
 
 # Preprocess data
 import glob
 import numpy as np
+import ast
 
 # Build dataset
 from torch.utils.data import Dataset
@@ -40,6 +43,7 @@ import time
 from torch import optim
 import tensorflow as tf
 from tensorflow.keras.applications import VGG19
+import random
 
 
 # Define paths
@@ -66,55 +70,73 @@ log_pth = 'late_fusion/log'
 
 class VQADataset(Dataset):
 
-    def __init__(self, input_dir, input_file, max_qu_len = 30, transform = None):
+    def __init__(self, input_dir, input_file,data_type ,max_qu_len = 30, transform = None): #new input
 
-        with open(os.path.join(input_dir, input_file), 'r') as file:
-            self.input_data = json.load(file)
+        
+        self.input_data =pd.read_csv(os.path.join(input_dir, input_file))
+        #print(self.input_data)
         self.qu_vocab = Vocab('preprocessed/vocab/qst_vocabs.txt')
         self.ans_vocab = Vocab('preprocessed/vocab/ann_vocabs.txt')
+        #print(self.ans_vocab.vocab)
         self.max_qu_len = max_qu_len
+        self.type=data_type #new
         self.transform = transform
         self.labeled = True if not "test" in input_file else False  #added this
+        self.length=len(self.input_data)
+      
 
-    def __getitem__(self, idx):
-        idx = str(idx)
-        print(idx)
-        path = self.input_data[idx]['img_path']
+    def __getitem__(self, idx):  #new function
+        
+
+        path = (self.input_data.loc[self.input_data['index'] == idx, 'img_path'].values[0])
+
+        #print('path',path)
         img = np.array(Image.open(path).convert('RGB'))
-        qu_id = self.input_data[idx]['qu_id']
-        qu_tokens = self.input_data[idx]['qu_tokens']
+        qu_id = int(self.input_data.loc[self.input_data['index'] == idx, 'qu_id'].values[0])
+        qu_tokens =  ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'qu_tokens'].values[0])
+        
         qu2idx = np.array([self.qu_vocab.word2idx('<pad>')] * self.max_qu_len)
+        
+        
         qu2idx[:len(qu_tokens)] = [self.qu_vocab.word2idx(token) for token in qu_tokens]
         sample = {'image': img, 'question': qu2idx, 'question_id': qu_id}
         
 
-        print('ans2idx')
-        ans2idx = [self.ans_vocab.word2idx(ans) for ans in self.input_data[idx]['valid_ans']]
-        print(ans2idx[0])
-        print(np.shape(ans2idx))
-            #ans2idx = np.random.choice(ans2idx)
-
-            #ans2idx = np.random.choice(ans2idx, size=np.shape(ans2idx))
-
-            #ans2idx = np.random.choice(ans2idx, size=1, replace=False)[0]
-            #print(np.shape(ans2idx))
-            #sample['answer'] = ans2idx
         #old
+        #print('ans2idx')
+        #for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0]):
+            #print('ans44',ans)
+            #print('ans33',self.ans_vocab.word2idx(ans))
+        ans2idx = [self.ans_vocab.word2idx(ans) for ans in ast.literal_eval(self.input_data.loc[self.input_data['index'] == idx, 'valid_ans'].values[0])]
+        #print('typeee',type(ans2idx[0]))
+        ans2idx = (ans2idx[0])
+        #ans2idx=random.choice(ans2idx)
         
-        #ans2idx = np.random.choice(ans2idx, size=1, replace=False)
-        #print(ans2idx)
-        #ans2idx = np.random.choice(ans2idx)
-        #print(ans2idx)
-        sample['answer'] = ans2idx[0]
+        sample['answer'] = (ans2idx)
 
         if self.transform:
             sample['image'] = self.transform(sample['image'])
+            
+            
+
+   
 
         return sample
+        
+       
+        
 
-    def __len__(self):
+    def __len__(self):  #new function
+        
+        if self.type=='train':
+            number=2999
 
-        return len(self.input_data)
+        if self.type=='val':
+            number=1499
+
+
+
+        return number
 
 
 def data_loader(input_dir, batch_size, max_qu_len, num_worker):
@@ -127,12 +149,14 @@ def data_loader(input_dir, batch_size, max_qu_len, num_worker):
     vqa_dataset = {
         'train': VQADataset(
             input_dir=input_dir,
-            input_file='train.json',
+            input_file='train.csv',
+            data_type='train',
             max_qu_len=max_qu_len,
             transform=transform),
         'val': VQADataset(
             input_dir=input_dir,
-            input_file='val.json',
+            input_file='val.csv',
+            data_type='val',
             max_qu_len=max_qu_len,
             transform=transform)
     }
@@ -153,8 +177,10 @@ class Vocab:
     def __init__(self, vocab_file):
 
         self.vocab = self.load_vocab(vocab_file)
+        
         self.vocab2idx = {vocab: idx for idx, vocab in enumerate(self.vocab)}
         self.vocab_size = len(self.vocab)
+        #print('vocab_idx',self.vocab )
 
     def load_vocab(self, vocab_file):
 
@@ -164,11 +190,19 @@ class Vocab:
         return vocab
 
     def word2idx(self, vocab):
+        
 
         if vocab in self.vocab2idx:
+            
+            
+            
+            
             return self.vocab2idx[vocab]
         else:
-            return ['<unk>']
+            print('gone into ukn')
+            print('this word is not there',vocab)
+
+            return self.vocab2idx['<unk>']  #new
 
     def idx2word(self, idx):
 
@@ -264,7 +298,7 @@ FEATURE_SIZE, WORD_EMBED = 512, 150
 NUM_HIDDEN, HIDDEN_SIZE = 2, 128
 #NUM_HIDDEN, HIDDEN_SIZE = 2, 512
 LEARNING_RATE, STEP_SIZE, GAMMA = 0.001, 10, 0.1
-EPOCH = 50
+EPOCH = 100
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -287,29 +321,29 @@ def train():
         epoch_loss = {key: 0 for key in ['train', 'val']}
         model.train()
         for idx, sample in enumerate(dataloader['train']):
-            print(sample)
+          
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
             label = sample['answer'].to(device=device)
             
-            #label = sample['answer'].squeeze().view(-1).to(device=device)
             
-            print('hey')
-            print(np.shape(image))
-            print(np.shape(question))
-            print(np.shape(label))
-            # forward
+            
+            
             logits = model(image, question)
-            print(np.shape(logits))
+            
             loss = criterion(logits, label)
+            
             epoch_loss['train'] += loss.item()
             # backward
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+            #ffff
 
         model.eval()
+   
         for idx, sample in enumerate(dataloader['val']):
+            
 
             image = sample['image'].to(device=device)
             question = sample['question'].to(device=device)
@@ -326,18 +360,18 @@ def train():
         print('Epoch:{}/{} | Training Loss: {train:6f} | Validation Loss: {val:6f}'.format(epoch+1, EPOCH, **epoch_loss))
 
         scheduler.step()
-        early_stop = early_stopping(model, epoch_loss['val'])
+        #early_stop = early_stopping(model, epoch_loss['val'])
         if (epoch+1) % 5 == 0:
             torch.save(model.state_dict(), os.path.join(ckpt_pth, f'model-epoch-{epoch+1}.pth'))
-        if early_stop:
-            print(f'>> Early stop at {epoch+1} epoch')
-            break
+        #if early_stop:
+         #   print(f'>> Early stop at {epoch+1} epoch')
+          #  break
 
     end_time = time.time()
     training_time = end_time - start_time
     print(f">> Finishing training | Training Time:{training_time//60:.0f}m:{training_time%60:.0f}s")
 
-def early_stopping(model, epoch_loss, patience=7):
+def early_stopping(model, epoch_loss, patience=14):
 
     early_stop = False
     if not bool(early_stopping.__dict__):
