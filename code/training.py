@@ -127,7 +127,7 @@ class VQADataset(Dataset):
         
 
     def __len__(self):  #new function
-        
+        number = self.input_data['index'][-1]
         if self.type=='train':
             number=2999
 
