@@ -44,7 +44,7 @@ from torch import optim
 import tensorflow as tf
 from tensorflow.keras.applications import VGG19
 import random
-
+import chardet
 
 # Define paths
 
@@ -71,7 +71,7 @@ log_pth = 'late_fusion/log'
 class VQADataset(Dataset):
 
     def __init__(self, input_dir, input_file,data_type ,max_qu_len = 30, transform = None): #new input
-
+        print(input_dir, input_file)
         with open(os.path.join(input_dir, input_file), 'rb') as f:
             result = chardet.detect(f.read())
 
