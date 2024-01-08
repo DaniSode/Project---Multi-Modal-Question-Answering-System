@@ -72,8 +72,10 @@ class VQADataset(Dataset):
 
     def __init__(self, input_dir, input_file,data_type ,max_qu_len = 30, transform = None): #new input
 
-        
-        self.input_data =pd.read_csv(os.path.join(input_dir, input_file))
+        with open(os.path.join(input_dir, input_file), 'rb') as f:
+            result = chardet.detect(f.read())
+
+        self.input_data =pd.read_csv(os.path.join(input_dir, input_file), encoding=result['encoding'])
         #print(self.input_data)
         self.qu_vocab = Vocab('preprocessed/vocab/qst_vocabs.txt')
         self.ans_vocab = Vocab('preprocessed/vocab/ann_vocabs.txt')
