@@ -116,19 +116,15 @@ class VQADataset(Dataset):
 
         if self.transform:
             sample['image'] = self.transform(sample['image'])
-            
-            
 
-   
 
         return sample
-        
-       
-        
+
 
     def __len__(self):  #new function
-        
+        number = self.input_data.loc[self.input_data['index'][-1]
         if self.type=='train':
+
             number=2999
 
         if self.type=='val':
