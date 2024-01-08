@@ -127,12 +127,12 @@ class VQADataset(Dataset):
         
 
     def __len__(self):  #new function
-        number = self.input_data['index'][-1]
+        #number = self.input_data['index'][-1]
         if self.type=='train':
-            number=2999
+            number=11999
 
         if self.type=='val':
-            number=1499
+            number=5999
 
 
 
