@@ -149,13 +149,13 @@ def data_loader(input_dir, batch_size, max_qu_len, num_worker):
     vqa_dataset = {
         'train': VQADataset(
             input_dir=input_dir,
-            input_file='train_new.csv',
+            input_file='train.csv',
             data_type='train',
             max_qu_len=max_qu_len,
             transform=transform),
         'val': VQADataset(
             input_dir=input_dir,
-            input_file='val_new.csv',
+            input_file='val.csv',
             data_type='val',
             max_qu_len=max_qu_len,
             transform=transform)
